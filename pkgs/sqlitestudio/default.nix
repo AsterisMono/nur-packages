@@ -1,5 +1,4 @@
 { stdenv, lib, fetchFromGitHub, qtbase, qtsvg, qttools, readline, tcl, wrapQtAppsHook, copyDesktopItems, makeDesktopItem }:
-
 stdenv.mkDerivation rec {
   name = "sqlitestudio";
   version = "3.4.4";
@@ -41,6 +40,12 @@ stdenv.mkDerivation rec {
     mkdir -p output/build
     cd output/build
     qmake LIBDIR=$out/lib BINDIR=$out/bin ../../SQLiteStudio3
+  '';
+
+  postInstall = ''
+    install -Dm755 \
+      ../../SQLiteStudio3/guiSQLiteStudio/img/sqlitestudio.svg \
+      $out/share/pixmaps/sqlitestudio.svg
   '';
 
   enableParallelBuilding = true;
